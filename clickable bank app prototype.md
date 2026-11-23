@@ -115,8 +115,6 @@ Compare each screen with Figma. Expect a few differences:
 
 Tell Claude what your participants will do and how the sign-in should behave. In this project the tasks were:
 
-![The three test tasks as set up in the testing tool](screencaps_fig_claude/Screenshot%202026-11-23%20200254.png)
-
 | Task | Name | Description |
 | --- | --- | --- |
 | 1 | Check Your Account Balance | Find your current account balance and tell me what it is. |
