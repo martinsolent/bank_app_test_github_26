@@ -169,14 +169,38 @@ Tips for phone testing:
 - **Lock the screen in portrait** so it doesn't rotate if the participant tilts the phone.
 - **Turn on Do Not Disturb** so messages don't pop up over the app mid-task.
 
+## Documents for your test session
+
+The [UX_User_Testing Documents_26](UX_User_Testing%20Documents_26/) folder in this repository has ready-made documents for running the test. Download them, change anything you need to, and print or share them before the session. Each Word document also has a Markdown copy in the folder's `Markdown` subfolder.
+
+To get everything in one go, download [UX_User_Testing Documents_26.zip](UX_User_Testing%20Documents_26.zip).
+
+**Written for this bank app**
+
+- [UX Facilitator Tester Guide: Bank App](UX_User_Testing%20Documents_26/UX_Facilitator_Tester_Guide_Bank_App_2025_v4.docx) is the script for whoever runs the session. It covers setting up, welcoming the participant, giving the tasks, prompting them to think aloud and closing the session.
+- [Informed Consent: Bank App](UX_User_Testing%20Documents_26/Informed_Consent_Bank_App_2025_v2.docx) is the statement each participant reads and signs before you start. It explains what the study is for and what they will be asked to do.
+
+**Templates and extra help**
+
+Use these for your own projects or to prepare before you facilitate.
+
+- [Facilitator Guide template](UX_User_Testing%20Documents_26/Facilitator%20Guide_Template_2025_v2.docx) is a general version of the facilitator guide to adapt for your own project.
+- [Informed Consent template](UX_User_Testing%20Documents_26/Informed_Consent_UX_Template_2025_v2.docx) is the consent statement with [Application Name] gaps to fill in.
+- [UX facilitator checklist](UX_User_Testing%20Documents_26/UX_facilitator_checklist.docx) lists what to cover in the session, from the welcome to the wrap-up.
+- [UX facilitator quick prompts](UX_User_Testing%20Documents_26/UX_facilitator_quick_prompts.docx) gives short lines to say out loud, such as "We're testing the design, not you".
+- [Think Aloud in user testing](UX_User_Testing%20Documents_26/Think%20Aloud%20in%20user%20testing.pdf) (PDF) introduces the think-aloud method and includes a short practice task.
+- [Usability Testing guide](UX_User_Testing%20Documents_26/Usability_Testing_guide_2025_v1.docx) is a longer, illustrated guide to running a usability test.
+- [Usability testing explainer video](UX_User_Testing%20Documents_26/Video/UX_Usability_Testing_Explainer.mp4) is a short video introduction, with a subtitle file (.srt) alongside it.
+
 ## Step 10: Run your usability test
 
-1. Open the prototype on a phone (Step 9). If you have to use a computer, make the browser window phone-sized.
-2. **Refresh the page before each participant.** The prototype does not reset by itself, so refreshing starts them back at Sign in.
-3. Hide or ignore the screen list on the left so participants only see the app.
-4. Read each task aloud and watch what they do.
-5. Check the results yourself. The prototype accepts any amount, so it will not tell you whether a participant typed 150 for Task 2.
-6. Tapping a tile that isn't part of the design, such as Water bill or Withdraw, shows a short message instead of opening a screen.
+1. Ask each participant to read and sign the informed consent form, then follow the facilitator guide.
+2. Open the prototype on a phone (Step 9). If you have to use a computer, make the browser window phone-sized.
+3. **Refresh the page before each participant.** The prototype does not reset by itself, so refreshing starts them back at Sign in.
+4. Hide or ignore the screen list on the left so participants only see the app.
+5. Read each task aloud and watch what they do.
+6. Check the results yourself. The prototype accepts any amount, so it will not tell you whether a participant typed 150 for Task 2.
+7. Tapping a tile that isn't part of the design, such as Water bill or Withdraw, shows a short message instead of opening a screen.
 
 ## Step 11: Ask for changes
 
