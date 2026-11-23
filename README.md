@@ -8,6 +8,8 @@ To try it on your phone, scan this code or go to [martinsolent.github.io/bank_ap
 
 <img src="qrcode_prototype.png" alt="QR code that opens the bank app prototype on GitHub Pages" width="180">
 
+**Prefer to watch?** [Watch the 3-minute video walkthrough](walkthrough_video/Figma_to_prototype_walkthrough.mp4) of the whole tutorial, with voiceover and captions. A [subtitle file](walkthrough_video/Figma_to_prototype_walkthrough.srt) is in the same folder.
+
 **What you end up with:** a single file, `bank-app.html`, that opens in any browser. It contains all 13 screens from the Figma page, linked together so a participant can tap through the app.
 
 **What you need**
