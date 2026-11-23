@@ -2,6 +2,8 @@
 
 This tutorial shows how to turn every screen on a Figma page into one working, clickable prototype you can use for usability testing. No coding is needed. You paste a link and describe what you want.
 
+In this repository, open `index.html` to run the phone-friendly prototype. The original layout is preserved as `old.html`; on narrow screens, the screen picker is hidden and the app content adjusts to fit the phone width.
+
 **What you end up with:** a single file, `bank-app.html`, that opens in any browser. It contains all 13 screens from the Figma page, linked together so a participant can tap through the app.
 
 **What you need**
