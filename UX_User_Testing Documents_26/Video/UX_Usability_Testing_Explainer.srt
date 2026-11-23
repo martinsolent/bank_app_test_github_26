@@ -1,0 +1,287 @@
+1
+00:00:00,450 --> 00:00:07,063
+This video walks you through running a usability test with a real participant, from the moment they arrive to the last task.
+
+2
+00:00:07,667 --> 00:00:13,320
+It follows the UX Testing Guide, so you can watch it now and keep the guide open during your own sessions.
+
+3
+00:00:14,383 --> 00:00:20,084
+A usability session has a simple shape. First, you welcome the participant and explain why you're there.
+
+4
+00:00:20,084 --> 00:00:23,045
+You're improving the design. You are not testing them.
+
+5
+00:00:23,633 --> 00:00:26,092
+Next, confirm consent and confidentiality.
+
+6
+00:00:26,092 --> 00:00:30,951
+Be open about recording and observers, and make it clear they can stop at any time.
+
+7
+00:00:31,567 --> 00:00:35,236
+Then reassure them. We are not testing you. We are testing the application.
+
+8
+00:00:35,833 --> 00:00:42,212
+Give tasks one at a time, as realistic scenarios with no hints, and ask them to think aloud while they work.
+
+9
+00:00:42,800 --> 00:00:48,219
+Finally, thank them, ask for their overall impressions, and remind them how their data will be used.
+
+10
+00:00:49,283 --> 00:00:52,995
+Start by introducing yourself and setting a friendly, relaxed tone.
+
+11
+00:00:53,600 --> 00:00:59,595
+Watch your wording. Call it a study, or research, rather than a test. The word test can make people nervous.
+
+12
+00:01:00,200 --> 00:01:05,939
+Your welcome has a few jobs. Help the participant feel comfortable, and explain what will happen and why.
+
+13
+00:01:06,533 --> 00:01:12,976
+Remind them that taking part is voluntary and confidential, and get them ready for the tasks and for thinking aloud.
+
+14
+00:01:14,017 --> 00:01:19,652
+The guide lists seven points to cover. Begin with a greeting and a thank you. Then explain the purpose.
+
+15
+00:01:19,652 --> 00:01:25,451
+You're testing the design to see how well it supports real tasks, and there are no right or wrong answers.
+
+16
+00:01:26,067 --> 00:01:31,313
+Give a quick overview: a few tasks based on real-world scenarios, thinking aloud as they go.
+
+17
+00:01:31,313 --> 00:01:35,304
+Mention the recording and any observers, who won't interact with them.
+
+18
+00:01:35,900 --> 00:01:41,329
+Tell them their responses stay confidential, and they can stop or skip a question at any time.
+
+19
+00:01:41,329 --> 00:01:47,335
+Ask for honest feedback. If something is confusing or frustrating, that's exactly what you need to know.
+
+20
+00:01:47,933 --> 00:01:51,176
+Last of all, ask if they have any questions before you begin.
+
+21
+00:01:52,217 --> 00:01:57,033
+Be open about observers and recording, and confirm it again at the start of the session.
+
+22
+00:01:57,033 --> 00:02:02,178
+You might say: this session will be recorded so we can review it later and improve the design.
+
+23
+00:02:02,178 --> 00:02:08,473
+It won't be shared outside the team, and the observers are here to learn from your experience, not to evaluate you.
+
+24
+00:02:09,067 --> 00:02:15,019
+Why does this matter? Transparency builds trust. People need to know who is watching and what's being recorded.
+
+25
+00:02:15,633 --> 00:02:17,548
+There's an ethical side too.
+
+26
+00:02:17,548 --> 00:02:23,633
+Many organisations follow GDPR or similar privacy rules, so explicit consent is required.
+
+27
+00:02:24,233 --> 00:02:29,567
+And if participants feel blindsided by observers or recording, they may act unnaturally.
+
+28
+00:02:30,617 --> 00:02:39,382
+Before the session, your consent form should say clearly whether you'll record audio, video or the screen, who can access the recordings, and what they're for.
+
+29
+00:02:39,382 --> 00:02:41,091
+Get written or digital consent.
+
+30
+00:02:41,700 --> 00:02:48,098
+At the start, reconfirm it out loud. Just to remind you, this session will be recorded for research purposes.
+
+31
+00:02:48,098 --> 00:02:51,151
+Then give them a chance to ask questions or opt out.
+
+32
+00:02:51,767 --> 00:02:53,611
+Explain what the observers are for.
+
+33
+00:02:53,611 --> 00:02:58,935
+They're there to learn from the participant's experience, not to judge them, and they'll stay silent.
+
+34
+00:02:59,533 --> 00:03:01,002
+And give them some control.
+
+35
+00:03:01,002 --> 00:03:06,168
+If they feel uncomfortable, they can pause or stop the recording, or skip any question or task.
+
+36
+00:03:07,217 --> 00:03:10,291
+Next, ask the participant to sign a consent form.
+
+37
+00:03:10,291 --> 00:03:14,557
+Send a link if the session is remote, or use a paper form in person.
+
+38
+00:03:14,557 --> 00:03:20,267
+Informed consent means they fully understand what the study involves and agree voluntarily.
+
+39
+00:03:20,267 --> 00:03:25,286
+It's an ethical requirement, and often a legal one, under GDPR in the UK and EU.
+
+40
+00:03:25,900 --> 00:03:34,668
+A good consent form covers the purpose of the study, what will happen, and how data is handled: what you'll collect, how it's stored, who can access it, and for how long.
+
+41
+00:03:35,267 --> 00:03:45,528
+It also makes clear that taking part is voluntary, sets out any risks, such as the discomfort of being recorded, explains how you'll keep them anonymous, and gives a contact for questions.
+
+42
+00:03:46,583 --> 00:03:51,917
+In practice, give them the written form before the session, in plain language without legal jargon.
+
+43
+00:03:52,533 --> 00:03:56,331
+Then reconfirm verbally when you begin, and leave time for questions.
+
+44
+00:03:57,383 --> 00:04:03,399
+One sentence does a lot of work in a usability test. We are not testing you. We are testing the application.
+
+45
+00:04:04,000 --> 00:04:09,332
+It reduces anxiety. Participants who feel judged try to do well instead of behaving naturally.
+
+46
+00:04:09,332 --> 00:04:13,472
+Hearing this helps them relax and use the product as they normally would.
+
+47
+00:04:14,067 --> 00:04:19,669
+It encourages honest feedback. People who feel tested may avoid admitting confusion or mistakes.
+
+48
+00:04:19,669 --> 00:04:25,331
+Once they know the product is being evaluated, they're more likely to share genuine frustrations.
+
+49
+00:04:25,933 --> 00:04:27,521
+It keeps the session neutral.
+
+50
+00:04:27,521 --> 00:04:34,531
+You're watching how the design supports the task, not how skilled the user is, so any problems are likely down to the interface.
+
+51
+00:04:35,133 --> 00:04:39,094
+And it improves your data. Stress and fear of judgement skew results.
+
+52
+00:04:39,094 --> 00:04:44,776
+A relaxed participant gives you more authentic insights, and that leads to better design decisions.
+
+53
+00:04:45,817 --> 00:04:48,191
+Now for the tasks. Give them one at a time.
+
+54
+00:04:48,191 --> 00:04:56,697
+That keeps the participant focused, stops them changing their behaviour because they know what's coming, and captures a natural reaction to each scenario.
+
+55
+00:04:57,300 --> 00:05:01,409
+Frame each task as a real-world goal, not an instruction like click here.
+
+56
+00:05:01,409 --> 00:05:06,644
+For example: imagine you want to book a train ticket for tomorrow. Show me how you'd do that.
+
+57
+00:05:07,233 --> 00:05:10,782
+Give context, but no hints. Don't tell them which feature to use.
+
+58
+00:05:10,782 --> 00:05:13,676
+When they've finished a task, introduce the next one.
+
+59
+00:05:14,717 --> 00:05:19,559
+Ask participants to think aloud. It shows you their thought process, not just their actions.
+
+60
+00:05:20,167 --> 00:05:25,375
+At the start, say something like: as you go through the tasks, please say out loud what you're thinking.
+
+61
+00:05:25,375 --> 00:05:29,532
+What you expect to happen, what you're looking for, and anything that confuses you.
+
+62
+00:05:30,133 --> 00:05:35,232
+During the tasks, a gentle nudge helps. Keep talking as you go. What's going through your mind?
+
+63
+00:05:35,833 --> 00:05:40,548
+If they go quiet, ask: what are you thinking right now? Or: what made you choose that option?
+
+64
+00:05:41,583 --> 00:05:45,957
+A few tips for facilitators. Don't lead the participant, and don't correct them.
+
+65
+00:05:46,567 --> 00:05:52,199
+Stick to neutral prompts, such as: tell me what you're looking for. Or: what do you expect to happen next?
+
+66
+00:05:52,800 --> 00:05:57,003
+And avoid phrases that sound like judgement, such as: why did you do that?
+
+67
+00:05:58,050 --> 00:06:01,591
+To finish, here are some quick prompts to keep beside you during a session.
+
+68
+00:06:02,200 --> 00:06:05,690
+Welcome them and remind them you're testing the design, not them.
+
+69
+00:06:05,690 --> 00:06:10,093
+Tell them the session is recorded, and that they can stop or withdraw at any time.
+
+70
+00:06:10,700 --> 00:06:15,585
+Keep them talking with: what are you thinking right now? And give them one scenario at a time.
+
+71
+00:06:16,200 --> 00:06:26,376
+At the end, thank them for their time, ask for their overall impressions, remind them their responses are confidential, and give them your contact details for any questions later.
+
+72
+00:06:27,417 --> 00:06:31,982
+That's the whole session. Keep the guide open when you run your own tests, and good luck.
