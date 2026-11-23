@@ -2,6 +2,12 @@
 
 This tutorial shows how to turn every screen on a Figma page into one working, clickable prototype you can use for usability testing. No coding is needed. You paste a link and describe what you want.
 
+In this repository, open `index.html` to run the phone-friendly prototype. On narrow screens the screen picker is hidden and the app adjusts to fit the phone width.
+
+To try it on your phone, scan this code or go to [martinsolent.github.io/bank_app_test_github_26](https://martinsolent.github.io/bank_app_test_github_26/):
+
+<img src="qrcode_prototype.png" alt="QR code that opens the bank app prototype on GitHub Pages" width="180">
+
 **What you end up with:** a single file, `bank-app.html`, that opens in any browser. It contains all 13 screens from the Figma page, linked together so a participant can tap through the app.
 
 **What you need**
@@ -86,7 +92,9 @@ To save the file, click the small arrow next to **Copy** at the top right of the
 
 ![The Copy menu open, showing Download as HTML and Publish artifact](screencaps_fig_claude/Screenshot%202026-11-23%20202209.png)
 
-*Note:* **Publish artifact** gives you a shareable claude.ai link instead. That is handy for a quick look, but for testing you'll want the downloaded file so you can host it yourself.
+**Where the file goes next.** The downloaded `bank-app.html` is the whole prototype in one file. To test it on phones it needs a web address, and GitHub Pages gives you one for free. Upload the file to a GitHub repository, rename it `index.html` so it opens as the home page, and switch on GitHub Pages. That's how this repository works, and it gives you the link used in Step 9. Setting up a repository and GitHub Pages is covered in other tutorials, so it isn't repeated here.
+
+*Note:* **Publish artifact** gives you a shareable claude.ai link instead. That is handy for a quick look, but for testing use GitHub Pages, so the file and its address stay under your control.
 
 The screens in this project were:
 
@@ -143,7 +151,7 @@ The result:
 
 The prototype runs in a desktop browser, but it's a phone app, so test it on a phone if you can. Participants hold it in their hand, tap with their thumb and see it at its real size, and you get more realistic results.
 
-1. **Put it online.** A phone can't open a file sitting on your laptop, so the prototype needs a web address. In this repository `index.html` is served by GitHub Pages at [martinsolent.github.io/bank_app_test_github_26](https://martinsolent.github.io/bank_app_test_github_26/).
+1. **Put it online.** A phone can't open a file sitting on your laptop, so the prototype needs a web address (see "Where the file goes next" in Step 6). In this repository `index.html` is served by GitHub Pages at [martinsolent.github.io/bank_app_test_github_26](https://martinsolent.github.io/bank_app_test_github_26/).
 2. **Open the address on the phone** in Chrome or Safari. Typing a long address on a phone is fiddly, so scan this QR code with the phone's camera instead:
 
    <img src="qrcode_prototype.png" alt="QR code that opens the bank app prototype on GitHub Pages" width="180">
