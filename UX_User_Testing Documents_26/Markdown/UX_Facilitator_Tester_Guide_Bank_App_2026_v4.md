@@ -4,63 +4,63 @@
 
 **Environment Setup**:
 
-  - Ensure a quiet and distraction-free environment.
+-   Ensure a quiet and distraction-free environment.
 
-  - Test recording equipment (if used) and confirm that it captures audio and/or video clearly.
+-   Test recording equipment (if used) and confirm that it captures audio and/or video clearly.
 
 **Materials**:
 
-  - A device with the mobile banking app installed.
+-   A device with the mobile banking app installed.
 
-  - A printed or digital copy of the task instructions (optional for participants).
+-   A printed or digital copy of the task instructions (optional for participants).
 
 ## 2\. Opening the Session
 
 **Step 1: Welcome and Introductions**
 
-  - Greet the participant warmly.
+-   Greet the participant warmly.
 
-  - Introduce yourself and your role as the facilitator.
+-   Introduce yourself and your role as the facilitator.
 
-  - Explain the purpose of the session:  
+-   Explain the purpose of the session:\
     ***“Thank you for joining today. The goal of this session is to test how easy and intuitive it is to use a mobile banking app. We are not testing you or your skills but rather observing how the app works for users like you.”***
 
 **Step 2: Explain the Process**
 
-  - Outline the steps of the session:  
+-   Outline the steps of the session:\
     ***“This session will take about \[insert time\] minutes. I’ll give you a few tasks to complete using the app, and I’d like you to describe your thoughts as you go along. Please approach this as you naturally would in real life.”***
 
 **Step 3: Informed Consent**
 
-  - Briefly explain their rights:  
+-   Briefly explain their rights:\
     ***“Your participation is completely voluntary, and you can stop at any time. Your feedback will be used to improve the app, and any recordings or notes we take will remain confidential.”***
 
-  - Recording the Test  
+-   Recording the Test\
     ***“We would like to record your test session if you agree. Recording helps us review your session and understand your feedback. Your input helps us improve our design. We will store the recording securely. Only the research team will view the recording. No sharing outside the research team. No name in any report. Recordings will be deleted once the research ends.***
 
 > ***You are free to ask us to stop recording. You are welcome to join the test without a recording.***
 
-  - Ask if they have any questions before starting.
+-   Ask if they have any questions before starting.
 
-  - Obtain verbal or written consent:  
+-   Obtain verbal or written consent:\
     ***“Do you consent to participate in this session and to have your feedback recorded for analysis?”***
 
 **Step 4: Put Them at Ease**
 
-  - Reassure them:  
+-   Reassure them:\
     ***“There are no right or wrong answers, and it’s okay if you find anything confusing. That’s what we’re here to learn.”***
 
-  - Encourage honesty:  
-    ***“Feel free to share both positive and negative feedback. We value all insights\!”***
+-   Encourage honesty:\
+    ***“Feel free to share both positive and negative feedback. We value all insights!”***
 
 ## 3\. Conducting the Test
 
 **General Instructions for Tasks**
 
-  - Encourage the participant to think aloud:  
+-   Encourage the participant to think aloud:\
     ***“As you complete the tasks, please describe what you’re doing, what you’re thinking, and any impressions you have.”***
 
-  - Observe without interfering, but be ready to prompt if they stop thinking aloud:  
+-   Observe without interfering, but be ready to prompt if they stop thinking aloud:\
     ***“Can you explain what you’re thinking right now?”***
 
 **Task-by-Task Guide – Banking App**
@@ -69,9 +69,9 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Notes for Moderators:**
 
-  - Allow participants to work at their own pace but remind them to think aloud.
+-   Allow participants to work at their own pace but remind them to think aloud.
 
-  - Offer minimal assistance unless participants are completely stuck, as the goal is to observe natural user behaviour.
+-   Offer minimal assistance unless participants are completely stuck, as the goal is to observe natural user behaviour.
 
 **Task 1: Initial Exploration Prompt:**
 
@@ -79,11 +79,11 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Observe:**
 
-  - How they navigate the interface.
+-   How they navigate the interface.
 
-  - What catches their attention.
+-   What catches their attention.
 
-  - Any immediate confusion or delight.
+-   Any immediate confusion or delight.
 
 **Task 2: Check Your Account Balance Prompt:**
 
@@ -91,11 +91,11 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Observe:**
 
-  - How quickly they locate the balance.
+-   How quickly they locate the balance.
 
-  - Whether the display is clear and easy to interpret.
+-   Whether the display is clear and easy to interpret.
 
-  - Any hesitation or missteps.
+-   Any hesitation or missteps.
 
 **Task 3: Transfer Money to a Friend Prompt:**
 
@@ -103,11 +103,11 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Observe:**
 
-  - How easily they locate the transfer option.
+-   How easily they locate the transfer option.
 
-  - The ease of entering and confirming payment details.
+-   The ease of entering and confirming payment details.
 
-  - Whether they encounter or resolve errors.
+-   Whether they encounter or resolve errors.
 
 **Task 4: Pay a bill Prompt:**
 
@@ -115,11 +115,11 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Observe:**
 
-  - Did they find and tap "Pay a bill" quickly, without wrong taps or backtracking?
+-   Did they find and tap "Pay a bill" quickly, without wrong taps or backtracking?
 
-  - Did they pick the electricity bill correctly
+-   Did they pick the electricity bill correctly
 
-  - Did they check the details before confirming,
+-   Did they check the details before confirming,
 
 ## 4\. Wrap-Up and Feedback
 
@@ -137,14 +137,14 @@ Test Scenario: **“*Imagine you have just downloaded a new mobile banking app f
 
 **Step 3: Thank and Dismiss**
 
-  - Thank them sincerely:  
+-   Thank them sincerely:\
     ***“We really appreciate your time and insights. Your feedback is incredibly valuable.”***
 
-  - Explain next steps:  
+-   Explain next steps:\
     ***“If you have any questions about this session later, feel free to reach out.”***
 
 ## 5\. Post-Session
 
-  - Review and save notes/recordings.
+-   Review and save notes/recordings.
 
-  - Summarise key observations for analysis, highlighting usability issues and positive feedback
+-   Summarise key observations for analysis, highlighting usability issues and positive feedback

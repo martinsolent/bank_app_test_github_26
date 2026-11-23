@@ -177,7 +177,7 @@ To get everything in one go, download [UX_User_Testing Documents_26.zip](UX_User
 
 **Written for this bank app**
 
-- [UX Facilitator Tester Guide: Bank App](UX_User_Testing%20Documents_26/UX_Facilitator_Tester_Guide_Bank_App_2025_v4.docx) is the script for whoever runs the session. It covers setting up, welcoming the participant, giving the tasks, prompting them to think aloud and closing the session.
+- [UX Facilitator Tester Guide: Bank App](UX_User_Testing%20Documents_26/UX_Facilitator_Tester_Guide_Bank_App_2026_v4.docx) is the script for whoever runs the session. It covers setting up, welcoming the participant, giving the tasks, prompting them to think aloud and closing the session.
 - [Informed Consent: Bank App](UX_User_Testing%20Documents_26/Informed_Consent_Bank_App_2025_v2.docx) is the statement each participant reads and signs before you start. It explains what the study is for and what they will be asked to do.
 
 **Templates and extra help**
