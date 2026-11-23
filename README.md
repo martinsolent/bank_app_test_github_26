@@ -4,6 +4,10 @@ This tutorial shows how to turn every screen on a Figma page into one working, c
 
 In this repository, open `index.html` to run the phone-friendly prototype. The original layout is preserved as `old.html`; on narrow screens, the screen picker is hidden and the app content adjusts to fit the phone width.
 
+To try it on your phone, scan this code or go to [martinsolent.github.io/bank_app_test_github_26](https://martinsolent.github.io/bank_app_test_github_26/):
+
+<img src="qrcode_prototype.png" alt="QR code that opens the bank app prototype on GitHub Pages" width="180">
+
 **What you end up with:** a single file, `bank-app.html`, that opens in any browser. It contains all 13 screens from the Figma page, linked together so a participant can tap through the app.
 
 **What you need**
@@ -143,16 +147,38 @@ The result:
 
 **Task 3: Pay the electric bill.** Home, then Pay the bill, then Electric bill. They enter an amount on the number keypad and tap Confirm. After that come the bill summary, Pay the bill, and the success screen.
 
-## Step 9: Run your usability test
+## Step 9: Open the prototype on a phone
 
-1. Open `bank-app.html` in a browser, ideally in a phone-sized window or on a phone.
+The prototype runs in a desktop browser, but it's a phone app, so test it on a phone if you can. Participants hold it in their hand, tap with their thumb and see it at its real size, and you get more realistic results.
+
+1. **Put it online.** A phone can't open a file sitting on your laptop, so the prototype needs a web address. In this repository `index.html` is served by GitHub Pages at [martinsolent.github.io/bank_app_test_github_26](https://martinsolent.github.io/bank_app_test_github_26/).
+2. **Open the address on the phone** in Chrome or Safari. Typing a long address on a phone is fiddly, so scan this QR code with the phone's camera instead:
+
+   <img src="qrcode_prototype.png" alt="QR code that opens the bank app prototype on GitHub Pages" width="180">
+
+   For your own project, make a QR code for your Pages link. Many desktop browsers can make one from the share menu. Point it at the `github.io` address, not the `github.com` repository page, or testers will see your code instead of the app.
+3. **Check it fits.** On a phone the screen list disappears and the app fills the width of the screen.
+4. **Tap Full screen.** The **Full screen** button sits in the bottom-right corner. It hides the browser's address bar and tabs so the prototype looks like a real app. The button then reads **Exit full screen**; tap it again to come out.
+5. Hand the phone to your participant.
+
+Tips for phone testing:
+
+- **iPhone:** Safari on iPhone doesn't let web pages go full screen, so the button may just show a short "not supported" message. That's fine. The app still fits the screen, and Safari's address bar shrinks once you start scrolling. For a more app-like look, tap **Share > Add to Home Screen** and open the prototype from the new icon.
+- **Android:** the button works in Chrome. The phone's back gesture also exits full screen.
+- **Refreshing exits full screen.** After you refresh between participants (Step 10), tap **Full screen** again.
+- **Lock the screen in portrait** so it doesn't rotate if the participant tilts the phone.
+- **Turn on Do Not Disturb** so messages don't pop up over the app mid-task.
+
+## Step 10: Run your usability test
+
+1. Open the prototype on a phone (Step 9). If you have to use a computer, make the browser window phone-sized.
 2. **Refresh the page before each participant.** The prototype does not reset by itself, so refreshing starts them back at Sign in.
 3. Hide or ignore the screen list on the left so participants only see the app.
 4. Read each task aloud and watch what they do.
 5. Check the results yourself. The prototype accepts any amount, so it will not tell you whether a participant typed 150 for Task 2.
 6. Tapping a tile that isn't part of the design, such as Water bill or Withdraw, shows a short message instead of opening a screen.
 
-## Step 10: Ask for changes
+## Step 11: Ask for changes
 
 Send Claude a short request whenever something is not right. Examples:
 
@@ -170,4 +196,5 @@ Claude updates the same file each time, so you keep using `bank-app.html`.
 4. Paste the link into Claude and ask for all screens as a clickable prototype.
 5. Review the file against Figma, then download it with **Copy > Download as HTML**.
 6. Tell Claude your tasks and how the sign-in should behave.
-7. Refresh the page between participants and run your test.
+7. Open it on a phone and tap **Full screen**.
+8. Refresh the page between participants and run your test.
