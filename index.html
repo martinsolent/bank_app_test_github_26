@@ -196,6 +196,9 @@
     body { background: #fff; }
     .stage { padding: 0; display: block; }
     .device { width: min(100%, 375px); height: 100dvh; margin-inline: auto; box-shadow: none; overflow-y: auto; overflow-x: hidden; }
+    #device:fullscreen { width: 100%; max-width: none; height: 100dvh; border-radius: 0; }
+    .fullscreen-toggle { position: fixed; z-index: 100; right: max(12px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 0; border-radius: 999px; background: var(--primary-1); color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.24); font: 500 13px/18px "Poppins", sans-serif; cursor: pointer; }
+    .fullscreen-toggle:focus-visible { outline: 3px solid rgba(54,41,183,.35); outline-offset: 3px; }
     .acct, #bendetail .card, .billcard, .ebill .card, #ebill4 > .card { width: calc(100% - 48px); }
     #home .home-card { width: calc(100% - 48px); }
     #home > button { left: auto !important; right: 24px; }
@@ -219,6 +222,7 @@
   </aside>
 
   <main class="device" id="device">
+    <button class="fullscreen-toggle" id="fullscreenToggle" type="button" aria-label="Enter fullscreen" aria-pressed="false" hidden>Full screen</button>
 
     <!-- 1. SIGN IN -->
     <section class="screen t-light" id="signin" data-bg="#3629b7">
@@ -627,6 +631,23 @@
     toast.classList.remove('show');
     const sc = $('#benScroll'); if (id === 'benlist') sc.scrollTop = 0;
   }
+  const fullscreenToggle = $('#fullscreenToggle');
+  fullscreenToggle.hidden = false;
+  fullscreenToggle.addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (device.requestFullscreen) await device.requestFullscreen();
+      else say('Fullscreen is not supported by this browser');
+    } catch (error) {
+      say('Could not enter fullscreen in this browser');
+    }
+  });
+  document.addEventListener('fullscreenchange', () => {
+    const active = document.fullscreenElement === device;
+    fullscreenToggle.setAttribute('aria-pressed', String(active));
+    fullscreenToggle.setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
+    fullscreenToggle.textContent = active ? 'Exit full screen' : 'Full screen';
+  });
   function jump(i) { show(order[i][0], i); if (order[i][2]) order[i][2](); }
   function go(id) {
     const i = order.findIndex(o => o[0] === id);
