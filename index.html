@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bank app prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-1: #3629b7;
+    --primary-2: #5655b9;
+    --primary-4: #f2f1f9;
+    --neutral-1: #343434;
+    --neutral-2: #898989;
+    --neutral-3: #979797;
+    --neutral-4: #cacaca;
+    --border: #cbcbcb;
+    --pink: #ff4267;
+    --blue: #0890fe;
+    --yellow: #ffaf2a;
+    --mint: #52d5ba;
+    --orange: #fb6b18;
+    --shadow-card: 0 5px 30px rgba(0,0,0,.05);
+    --shadow-purple: 0 4px 30px rgba(54,41,183,.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body { font-family: "Poppins", system-ui, sans-serif; background: #e9e9ef; color: var(--neutral-1); }
+  button { font-family: inherit; }
+
+  /* ---------- Page layout: screen list + phone ---------- */
+  .stage { min-height: 100%; display: flex; justify-content: center; align-items: flex-start; gap: 40px; padding: 32px 24px; }
+  .picker { width: 230px; position: sticky; top: 32px; }
+  .picker h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .picker p { font-size: 12px; color: var(--neutral-2); margin-bottom: 14px; line-height: 1.5; }
+  .picker ol { list-style: none; display: grid; gap: 4px; }
+  .picker button {
+    width: 100%; text-align: left; padding: 8px 12px; border: 0; border-radius: 10px; background: transparent;
+    font-size: 12px; font-weight: 500; color: var(--neutral-1); cursor: pointer;
+  }
+  .picker button:hover { background: #fff; }
+  .picker button[aria-current="true"] { background: var(--primary-1); color: #fff; }
+  .picker button:focus-visible { outline: 2px solid var(--primary-1); outline-offset: 1px; }
+
+  .device {
+    position: relative; width: 375px; height: 812px; overflow: hidden; flex: none;
+    border-radius: 0; box-shadow: 0 20px 60px rgba(54,41,183,.18);
+    background: #fff; transition: height .2s;
+  }
+  @media (max-width: 760px) {
+    .picker { display: none; }
+    body { background: #fff; }
+    .stage { padding: 0; display: block; }
+    .device { width: 100%; height: 100dvh; box-shadow: none; overflow-y: auto; overflow-x: hidden; }
+  }
+
+  /* ---------- Screens ---------- */
+  .screen { display: none; position: relative; width: 100%; height: 812px; min-height: 100%; overflow: hidden; }
+  .screen.active { display: block; }
+  .screen.tall { height: 864px; }
+  .screen.t-light { color: #fff; }
+  .abs { position: absolute; }
+
+  .status { position: absolute; top: 0; left: 0; right: 0; height: 40px; pointer-events: none; }
+  .status .time { position: absolute; left: 32px; top: 12px; font-weight: 600; font-size: 15px; letter-spacing: -.3px; }
+  .status .ico { position: absolute; right: 14px; top: 14px; display: flex; gap: 5px; align-items: center; }
+  .status.alt .time { left: 20px; top: 14px; font-size: 12px; font-weight: 500; letter-spacing: 0; }
+  .status.alt .ico { right: 20px; }
+
+  .nav h2 { position: absolute; left: 56px; top: 65px; font-weight: 600; font-size: 20px; line-height: 28px; white-space: nowrap; }
+  .nav .back { position: absolute; left: 20px; top: 66px; width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none; color: inherit; cursor: pointer; border-radius: 50%; }
+  .nav .back:focus-visible, .nav .act:focus-visible { outline: 2px solid var(--primary-1); }
+  .nav .act { position: absolute; right: 20px; top: 66px; width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none; color: inherit; cursor: pointer; }
+  .nav.alt h2 { top: 56px; font-size: 18px; left: 56px; }
+  .nav.alt .back { top: 55px; left: 22px; }
+
+  .homebar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 9px; width: 134px; height: 5px; border-radius: 100px; background: var(--neutral-4); pointer-events: none; }
+
+  .sheet { position: absolute; left: 0; right: 0; background: #fff; border-radius: 30px 30px 0 0; }
+
+  /* ---------- Shared form + button ---------- */
+  .input {
+    width: 100%; height: 44px; border: 1px solid var(--border); border-radius: 15px; padding: 0 14px; background: #fff;
+    font: 500 14px/1.5 "Poppins", sans-serif; color: var(--neutral-1); outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .input::placeholder { color: var(--neutral-4); opacity: 1; }
+  .input:focus, .input.focus { border-color: var(--primary-1); box-shadow: 0 0 0 3px rgba(54,41,183,.12); }
+  .label { font-size: 12px; font-weight: 600; color: var(--neutral-3); line-height: 16px; }
+  .btn {
+    position: absolute; height: 44px; border: 0; border-radius: 15px; background: var(--primary-1); color: #fff;
+    font: 500 16px/24px "Poppins", sans-serif; cursor: pointer; transition: background .15s;
+  }
+  .btn:active { background: var(--primary-2); }
+  .btn:disabled { background: var(--neutral-2); cursor: not-allowed; }
+  .btn.pale:disabled { background: var(--primary-4); }
+  .btn:focus-visible { outline: 3px solid rgba(54,41,183,.35); outline-offset: 2px; }
+  .card { position: absolute; background: #fff; border-radius: 15px; box-shadow: var(--shadow-card); }
+
+  /* ---------- Avatars (placeholders for the photos) ---------- */
+  .avatar { border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 600; flex: none; }
+
+  /* ---------- Sign in ---------- */
+  #signin { background: var(--primary-1); }
+  #signin .sheet { top: 108px; bottom: 0; }
+  #signin .pw-wrap { position: relative; }
+  #signin .toggle { position: absolute; right: 8px; top: 6px; width: 32px; height: 32px; border: 0; background: none; border-radius: 50%; cursor: pointer; display: grid; place-items: center; }
+  #signin .toggle svg { transition: transform .2s; }
+  #signin .toggle[aria-pressed="true"] svg { transform: rotate(180deg); }
+  .link-muted { position: absolute; right: 27px; top: 529px; font-size: 12px; font-weight: 500; color: var(--neutral-4); text-decoration: none; line-height: 16px; background: none; border: 0; cursor: pointer; }
+  .link-muted:hover { color: var(--primary-1); }
+
+  /* ---------- Home ---------- */
+  #home { background: var(--primary-1); }
+  .tile {
+    position: absolute; width: 100px; height: 100px; background: #fff; border: 0; border-radius: 15px; box-shadow: var(--shadow-card);
+    font: 500 12px/16px "Poppins", sans-serif; color: var(--neutral-3); text-align: center; cursor: pointer;
+  }
+  .tile svg { position: absolute; left: 36px; top: 16px; }
+  .tile span { position: absolute; left: 4px; right: 4px; top: 56px; height: 32px; display: flex; align-items: center; justify-content: center; }
+  .tile:hover { transform: translateY(-1px); }
+  .tile:focus-visible { outline: 2px solid var(--primary-1); }
+  .tabbar { position: absolute; left: 0; right: 0; top: 773px; height: 91px; background: #fff; box-shadow: 0 -5px 30px rgba(54,41,183,.07); }
+  .tabbar .pill { position: absolute; left: 40px; top: 20px; width: 92px; height: 36px; border-radius: 20px; background: var(--primary-1); color: #fff; font-size: 12px; display: flex; align-items: center; gap: 6px; padding-left: 14px; }
+  .tabbar button { position: absolute; top: 24px; width: 28px; height: 28px; border: 0; background: none; color: var(--neutral-2); cursor: pointer; }
+
+  /* ---------- Account & card ---------- */
+  #account { background: #fff; }
+  .tab { position: absolute; top: 108px; width: 155px; height: 44px; border: 0; border-radius: 15px; font: 500 16px/24px "Poppins", sans-serif; cursor: pointer; background: var(--primary-4); color: var(--neutral-1); }
+  .tab[aria-selected="true"] { background: var(--primary-1); color: #fff; }
+  .acct { height: 108px; width: 327px; left: 24px; padding: 16px; }
+  .acct .row { display: flex; justify-content: space-between; align-items: center; }
+  .acct .name { font-size: 16px; font-weight: 600; line-height: 24px; }
+  .acct .small { font-size: 12px; line-height: 16px; color: var(--neutral-3); font-weight: 500; }
+  .acct .val { font-size: 12px; line-height: 16px; color: var(--primary-1); font-weight: 600; }
+  .acct .row + .row { margin-top: 12px; }
+  .acct .row.tight + .row { margin-top: 8px; }
+
+  /* ---------- Beneficiary list ---------- */
+  #benlist { background: #fff; }
+  #benlist .scroll { position: absolute; left: 0; right: 0; top: 108px; bottom: 0; overflow-y: auto; padding: 0 24px 120px; }
+  #benlist .cap { font-size: 12px; font-weight: 600; color: var(--neutral-3); line-height: 16px; margin: 0 0 16px; }
+  .ulist { background: #fff; border-radius: 15px; box-shadow: var(--shadow-card); padding: 24px 16px; margin-bottom: 24px; }
+  .urow { display: flex; align-items: center; gap: 12px; height: 52px; width: 100%; border: 0; background: none; text-align: left; cursor: pointer; font-family: inherit; color: inherit; }
+  .urow + .urow { margin-top: 20px; position: relative; }
+  .urow + .urow::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; border-top: 1px solid #ececf2; }
+  .urow:focus-visible { outline: 2px solid var(--primary-1); outline-offset: 2px; border-radius: 8px; }
+  .urow .n { font-size: 16px; font-weight: 500; line-height: 24px; display: block; }
+  .urow .c { font-size: 12px; font-weight: 600; color: var(--neutral-3); line-height: 16px; display: block; }
+  .fab { position: absolute; right: 24px; bottom: 50px; width: 50px; height: 50px; border-radius: 50%; border: 0; background: var(--primary-1); box-shadow: 0 6px 16px rgba(54,41,183,.35); cursor: pointer; display: grid; place-items: center; }
+
+  /* ---------- Beneficiary detail ---------- */
+  #bendetail { background: var(--primary-1); }
+  #bendetail .sheet { top: 171px; bottom: 0; }
+  #bendetail .who { position: absolute; left: 0; right: 0; top: 255px; text-align: center; font-size: 16px; font-weight: 600; line-height: 24px; color: var(--primary-1); }
+  #bendetail .card { left: 24px; top: 297px; width: 327px; height: 476px; border-radius: 15px; color: var(--neutral-1); }
+  #bendetail .fld { position: absolute; left: 16px; right: 16px; }
+
+  /* ---------- Success ---------- */
+  .success { background: #fff; }
+  .success h3 { position: absolute; left: 0; right: 0; text-align: center; font-size: 16px; font-weight: 600; line-height: 24px; color: var(--primary-1); }
+  .success p.sub { position: absolute; left: 0; right: 0; text-align: center; font-size: 14px; line-height: 21px; }
+
+  /* ---------- Pay the bill ---------- */
+  #paybill { background: #fff; }
+  .billcard { position: absolute; left: 24px; width: 327px; height: 110px; border: 0; background: #fff; border-radius: 15px; box-shadow: var(--shadow-card); text-align: left; padding: 24px 16px; cursor: pointer; font-family: inherit; color: inherit; }
+  .billcard b { display: block; font-size: 16px; font-weight: 600; line-height: 24px; }
+  .billcard small { display: block; font-size: 12px; line-height: 16px; color: var(--neutral-3); font-weight: 500; }
+  .billcard svg { position: absolute; right: 16px; top: 16px; }
+  .billcard:focus-visible { outline: 2px solid var(--primary-1); }
+
+  /* ---------- Electric bill ---------- */
+  .ebill { background: #fff; }
+  .ebill .card { left: 24px; top: 117px; width: 327px; height: 256px; border-radius: 15px; }
+  .ebill .hint { position: absolute; left: 16px; right: 16px; top: 116px; font-size: 14px; line-height: 21px; color: var(--neutral-3); font-weight: 500; }
+  .amt { position: absolute; left: 16px; right: 16px; top: 56px; }
+  .amt .cur { position: absolute; left: 12px; top: 0; line-height: 44px; font-size: 14px; font-weight: 500; color: var(--neutral-3); pointer-events: none; }
+  .amt .input { padding-left: 26px; }
+  .amt.has .cur { color: var(--neutral-1); }
+  .kb { position: absolute; left: 0; right: 0; bottom: 0; height: 291px; background: #d1d4d9; display: none; }
+  .kb.show { display: block; }
+  .key { position: absolute; background: #fff; border: 0; border-radius: 5px; box-shadow: 0 1px 0 rgba(0,0,0,.3); font: 400 24px/1 "Poppins", sans-serif; color: #000; cursor: pointer; display: grid; place-items: center; }
+  .key.dark { background: #aeb3be; }
+  .key:active { background: #e5e5ea; }
+  .kb .bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 100px; background: #000; }
+
+  /* Bill summary */
+  #ebill4 { background: #fff; }
+  .row2 { position: absolute; left: 16px; right: 16px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; line-height: 16px; }
+  .row2 span:first-child { color: var(--neutral-3); font-weight: 500; }
+  .row2 span:last-child { font-weight: 600; text-align: right; max-width: 130px; }
+  .notch { position: absolute; width: 16px; height: 16px; background: #fff; border-radius: 50%; top: 264px; }
+
+  /* ---------- Toast ---------- */
+  .toast { position: absolute; left: 24px; right: 24px; bottom: 44px; padding: 12px 16px; background: var(--neutral-1); color: #fff; font-size: 12px; line-height: 16px; border-radius: 12px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50; }
+  .toast.show { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <aside class="picker" aria-label="Screens">
+    <h3>Screens</h3>
+    <p>Tap through the app, or jump straight to any screen from the Figma page.</p>
+    <ol id="picker"></ol>
+  </aside>
+
+  <main class="device" id="device">
+
+    <!-- 1. SIGN IN -->
+    <section class="screen t-light" id="signin" data-bg="#3629b7">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Sign in" data-back="toast:Back tapped"></div>
+      <div class="sheet">
+        <h1 class="abs" style="left:24px;top:24px;font-size:24px;line-height:28px;font-weight:600;color:var(--primary-1)">Welcome Back</h1>
+        <p class="abs" style="left:24px;top:56px;font-size:12px;line-height:16px;font-weight:500;color:var(--neutral-1)">Hello there, sign in to continue</p>
+        <svg class="abs" style="left:81px;top:104px" width="213" height="165" viewBox="0 0 213 165" role="img" aria-label="Padlock illustration">
+          <circle cx="97" cy="90" r="75" fill="#e6e4fc"/>
+          <path d="M82 73v-9a15 15 0 0 1 30 0v9" fill="none" stroke="#3629b7" stroke-width="7" stroke-linecap="round"/>
+          <rect x="72" y="72" width="50" height="50" rx="5" fill="#5655b9" stroke="#fff" stroke-width="2"/>
+          <circle cx="97" cy="92" r="6" fill="#fff"/><path d="M95 95h4l1.500 10h-7z" fill="#fff"/>
+          <circle cx="77" cy="5" r="5" fill="#3629b7"/><circle cx="200" cy="27" r="12.500" fill="#ff4267"/>
+          <circle cx="183" cy="136" r="5" fill="#0890fe"/><circle cx="5" cy="70" r="5" fill="#52d5ba"/>
+          <circle cx="52" cy="131" r="10" fill="#ffaf2a"/>
+        </svg>
+        <form id="signinForm" novalidate>
+          <div class="abs" style="left:24px;right:24px;top:301px"><input class="input" id="su" type="text" placeholder="Username" autocomplete="username" aria-label="Username"></div>
+          <div class="abs pw-wrap" style="left:24px;right:24px;top:365px">
+            <input class="input" id="sp" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" style="padding-right:44px">
+            <button class="toggle" id="st" type="button" aria-label="Show password" aria-pressed="false">
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#9a9aa8" stroke-width="1.400" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.500 8 8.500l7-7"/></svg>
+            </button>
+          </div>
+          <button class="link-muted" style="top:421px" type="button" data-toast="Forgot password tapped">Forgot your password ?</button>
+          <button class="btn pale" id="ss" style="left:24px;right:24px;top:477px" type="button" disabled>Sign in</button>
+        </form>
+        <button class="abs" style="left:50%;transform:translateX(-50%);top:545px;width:64px;height:64px;border:0;background:none;cursor:pointer;border-radius:50%" type="button" id="fp" aria-label="Sign in with fingerprint">
+          <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#3629b7" stroke-width="2.600" stroke-linecap="round">
+            <path d="M12 26a20 20 0 0 1 40 0"/><path d="M17 26a15 15 0 0 1 30 0v5"/><path d="M22 28a10 10 0 0 1 20 0v8c0 4 1 7 3 10"/>
+            <path d="M27 30a5 5 0 0 1 10 0v7c0 6 2 10 5 14"/><path d="M32 33v6c0 7 2 12 6 17"/><path d="M22 34v4c0 6-1 11-4 15"/>
+            <path d="M17 33v6c0 5-1 8-3 11"/><path d="M27 38v3c0 6-1 10-3 14"/><path d="M47 38v1c0 5 1 9 3 12"/>
+          </svg>
+        </button>
+        <p class="abs" style="left:0;right:0;top:633px;text-align:center;font-size:12px;line-height:16px;color:var(--neutral-1)">Don't have an account? <button type="button" data-toast="Sign up tapped" style="border:0;background:none;font:600 12px/16px Poppins;color:var(--primary-1);cursor:pointer;margin-left:2px">Sign Up</button></p>
+      </div>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 2. HOME -->
+    <section class="screen tall t-light" id="home" data-bg="#3629b7" data-h="864">
+      <div class="status" data-s></div>
+      <div class="avatar abs" style="left:24px;top:56px;width:50px;height:50px;background:linear-gradient(135deg,#8a5a3c,#3b2a22);font-size:16px">JS</div>
+      <p class="abs" style="left:92px;top:69px;font-size:16px;font-weight:500;line-height:24px">Hi, John Smith</p>
+      <button class="abs" style="left:322px;top:64px;width:32px;height:32px;border:0;background:none;color:#fff;cursor:pointer" type="button" aria-label="Notifications, 3 new" data-toast="Notifications tapped">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" style="position:absolute;left:3px;top:8px"><path d="M12 22a2.500 2.500 0 0 0 2.400-2h-4.800A2.500 2.500 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5-6.700V3a2 2 0 0 0-4 0v1.300A7 7 0 0 0 5 11v5l-2 2v1h18v-1Z"/></svg>
+        <span style="position:absolute;left:13px;top:0;width:16px;height:16px;border-radius:50%;background:#ff4267;font-size:10px;line-height:16px;font-weight:500">3</span>
+      </button>
+      <div class="sheet" style="top:130px;height:750px"></div>
+
+      <!-- stacked card -->
+      <div class="abs" style="left:33px;top:211px;width:261px;height:164px;border-radius:10px;background:#5655b9;box-shadow:var(--shadow-purple)"></div>
+      <div class="abs" style="left:20px;top:189px;width:287px;height:178px;border-radius:10px;background:#ff4267;box-shadow:var(--shadow-purple)"></div>
+      <div class="abs" style="left:24px;top:154px;width:327px;height:204px;border-radius:10px;overflow:hidden;background:#1f1a78;color:#fff">
+        <svg class="abs" style="left:0;top:0" width="327" height="204" viewBox="0 0 327 204" aria-hidden="true">
+          <rect width="327" height="204" fill="#1a73ff"/>
+          <circle cx="327" cy="40" r="80" fill="#2e8bff"/>
+          <path d="M0 0H224C200 50 215 150 245 204H0Z" fill="#1f1a78"/>
+        </svg>
+        <p class="abs" style="left:20px;top:21px;font-size:24px;line-height:36px;font-weight:400">John Smith</p>
+        <p class="abs" style="left:20px;top:93px;font-size:14px;line-height:16px;font-weight:500">Saver Account</p>
+        <p class="abs" style="left:16px;top:122px;font-size:16px;line-height:24px">1900 &nbsp;<span style="letter-spacing:2px">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</span>&nbsp; 1234</p>
+        <p class="abs" style="left:20px;top:150px;font-size:20px;line-height:28px;font-weight:600">$12,000</p>
+        <p class="abs" style="right:26px;bottom:24px;font-size:20px;font-weight:700;font-style:italic;letter-spacing:-.5px;line-height:1">VISA</p>
+      </div>
+
+      <div id="tiles"></div>
+
+      <div class="tabbar">
+        <div class="pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3Z"/></svg>Home</div>
+        <button type="button" style="left:175px" aria-label="Search" data-toast="Search tapped"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.600" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 5 5"/></svg></button>
+        <button type="button" style="left:247px" aria-label="Messages" data-toast="Messages tapped"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.600" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="m2.500 6.500 9.500 7 9.500-7"/></svg></button>
+        <button type="button" style="left:313px" aria-label="Settings" data-toast="Settings tapped"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.600"><circle cx="12" cy="12" r="3.500"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></button>
+      </div>
+      <div class="homebar" style="bottom:9px"></div>
+    </section>
+
+    <!-- 3. ACCOUNT & CARD -->
+    <section class="screen" id="account" data-bg="#fff">
+      <div class="status alt" data-s data-alt></div>
+      <div class="nav alt" data-nav="Account and card" data-back="home"></div>
+      <div role="tablist" aria-label="Account or card">
+        <button class="tab" role="tab" aria-selected="true" style="left:24px" data-tab="Account">Account</button>
+        <button class="tab" role="tab" aria-selected="false" style="left:195px" data-tab="Card">Card</button>
+      </div>
+      <div class="avatar abs" style="left:138px;top:184px;width:100px;height:100px;background:linear-gradient(135deg,#a8683f,#3b2a22);font-size:28px">JS</div>
+      <p class="abs" style="left:0;right:0;top:295px;text-align:center;font-size:16px;line-height:24px;font-weight:600;color:var(--primary-1)">John Smith</p>
+      <div class="card acct" style="top:352px"><div class="row"><span class="name">Current</span><span class="name">1900 8988 1234</span></div><div class="row"><span class="small">Avalable balance</span><span class="val">$20,000</span></div><div class="row tight"><span class="small">Branch</span><span class="val">New York</span></div></div>
+      <div class="card acct" style="top:480px"><div class="row"><span class="name">Saver</span><span class="name">1900 8678 1234</span></div><div class="row"><span class="small">Avalable balance</span><span class="val">$12,000</span></div><div class="row tight"><span class="small">Branch</span><span class="val">New York</span></div></div>
+      <div class="card acct" style="top:608px"><div class="row"><span class="name">Super Saver</span><span class="name">1900 1234 2222</span></div><div class="row"><span class="small">Avalable balance</span><span class="val">$230,000</span></div><div class="row tight"><span class="small">Branch</span><span class="val">New York</span></div></div>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 4. BENEFICIARY LIST -->
+    <section class="screen" id="benlist" data-bg="#fff">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Beneficiary" data-back="home" data-act="search"></div>
+      <div class="scroll" id="benScroll"></div>
+      <button class="fab" type="button" aria-label="Add beneficiary" data-toast="Add beneficiary tapped"><svg width="22" height="22" viewBox="0 0 22 22" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M11 2v18M2 11h18"/></svg></button>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 5. BENEFICIARY DETAIL -->
+    <section class="screen t-light" id="bendetail" data-bg="#3629b7">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Beneficiary" data-back="benlist"></div>
+      <div class="sheet"></div>
+      <div class="avatar abs" style="left:128px;top:117px;width:120px;height:120px;background:linear-gradient(135deg,#b4764f,#4a2f26);font-size:34px">HS</div>
+      <p class="who">Harper Someone</p>
+      <div class="card">
+        <div class="fld" style="top:16px"><p class="label">Choose bank</p><input class="input" style="margin-top:8px" value="Citibank" aria-label="Choose bank"></div>
+        <div class="fld" style="top:108px"><p class="label">Amount</p><div class="amt-wrap" style="position:relative;margin-top:8px"><span id="dcur" style="position:absolute;left:12px;line-height:44px;font-size:14px;font-weight:500;pointer-events:none">£</span><input class="input" id="damt" inputmode="decimal" style="padding-left:26px" aria-label="Amount in pounds" autocomplete="off"></div></div>
+        <div class="fld" style="top:200px"><p class="label">Transaction name</p><input class="input" style="margin-top:8px" value="Harper Someone" aria-label="Transaction name"></div>
+        <div class="fld" style="top:292px"><p class="label">Card number</p><input class="input" style="margin-top:8px" value="1235 6478 990" aria-label="Card number"></div>
+        <button class="btn" id="dconf" style="left:16px;right:16px;top:408px" type="button" disabled>Confirm</button>
+      </div>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 6. TRANSACTION SUCCESSFUL (credit card flow) -->
+    <section class="screen success" id="success1" data-bg="#fff">
+      <div class="status" data-s></div>
+      <svg class="abs" style="left:24px;top:108px" width="327" height="210" aria-hidden="true"><use href="#illo-success"/></svg>
+      <h3 style="top:364px">Transaction Successful</h3>
+      <button class="btn" style="left:24px;right:24px;top:458px" type="button" data-go="home">Home</button>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 7. PAY THE BILL -->
+    <section class="screen" id="paybill" data-bg="#fff">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Pay the bill" data-back="home"></div>
+      <button class="billcard" style="top:117px" type="button" data-go="ebill1"><b>Electric bill</b><small>Pay electric bill this month</small>
+        <svg width="90" height="80" viewBox="0 0 90 80" aria-hidden="true"><ellipse cx="45" cy="70" rx="45" ry="10" fill="#f2f1f9"/><rect x="28" y="2" width="36" height="68" rx="6" fill="#fff" stroke="#3629b7" stroke-width="2.500"/><rect x="34" y="12" width="24" height="34" rx="3" fill="#ffaf2a"/><rect x="38" y="58" width="16" height="5" rx="2" fill="#ffaf2a"/><rect x="4" y="10" width="20" height="24" rx="4" fill="#f4dcc1"/><circle cx="76" cy="40" r="9" fill="#ffd04d"/><path d="M12 42v12a6 6 0 0 0 6 6" stroke="#343434" stroke-width="3" fill="none"/></svg></button>
+      <button class="billcard" style="top:247px" type="button" data-toast="Water bill isn't part of this prototype"><b>Water bill</b><small>Pay water bill this month</small>
+        <svg width="90" height="84" viewBox="0 0 90 84" aria-hidden="true"><ellipse cx="50" cy="72" rx="40" ry="10" fill="#f2f1f9"/><rect x="28" y="2" width="36" height="70" rx="6" fill="#fff" stroke="#3629b7" stroke-width="2.500"/><path d="M42 18h14v8H46v14" stroke="#3629b7" stroke-width="3" fill="none"/><rect x="34" y="58" width="24" height="5" rx="2" fill="#ffaf2a"/><circle cx="76" cy="62" r="11" fill="#ffaf2a"/><path d="M12 56c5 6 5 10 0 14-5-4-5-8 0-14Z" fill="#3629b7"/></svg></button>
+      <button class="billcard" style="top:377px" type="button" data-toast="Mobile bill isn't part of this prototype"><b>Mobile bill</b><small>Pay mobile bill this month</small>
+        <svg width="90" height="84" viewBox="0 0 90 84" aria-hidden="true"><ellipse cx="45" cy="74" rx="45" ry="10" fill="#f2f1f9"/><rect x="38" y="2" width="38" height="70" rx="6" fill="#ff4267" stroke="#3629b7" stroke-width="2.500"/><rect x="8" y="30" width="28" height="42" rx="5" fill="#fff" stroke="#3629b7" stroke-width="2.500"/><rect x="14" y="40" width="16" height="16" rx="2" fill="#ffaf2a"/><circle cx="58" cy="40" r="9" fill="#ffaf2a"/></svg></button>
+      <button class="billcard" style="top:507px" type="button" data-toast="Internet bill isn't part of this prototype"><b>Internet bill</b><small>Pay internet bill this month</small>
+        <svg width="90" height="84" viewBox="0 0 90 84" aria-hidden="true"><ellipse cx="45" cy="76" rx="45" ry="9" fill="#f2f1f9"/><rect x="40" y="2" width="38" height="72" rx="6" fill="#fff" stroke="#3629b7" stroke-width="2.500"/><rect x="48" y="18" width="20" height="26" rx="2" fill="#ffd0d8"/><rect x="2" y="48" width="42" height="26" rx="3" fill="#ff4267" stroke="#3629b7" stroke-width="2.500"/><circle cx="22" cy="60" r="7" fill="#ffaf2a"/></svg></button>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 8-10. ELECTRIC BILL FORM (empty / numbers keyboard / £480 + letters keyboard) -->
+    <section class="screen ebill" id="ebill1" data-bg="#fff">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Electric Bill" data-back="paybill"></div>
+      <div class="card">
+        <p class="label abs" style="left:16px;top:32px">Amount</p>
+        <div class="amt" id="eamtWrap"><span class="cur">£</span><input class="input" id="eamt" readonly inputmode="none" aria-label="Amount in pounds" autocomplete="off"></div>
+        <p class="hint">Please enter the correct bill code to check information.</p>
+        <button class="btn" id="econf" style="left:16px;right:16px;top:196px" type="button" disabled>Confirm</button>
+      </div>
+      <div class="kb" id="kbNum" aria-label="Number keypad"></div>
+      <div class="kb" id="kbAbc" aria-label="Letter keyboard"></div>
+      <div class="homebar" id="ehome"></div>
+    </section>
+
+    <!-- 11. ELECTRIC BILL SUMMARY -->
+    <section class="screen" id="ebill4" data-bg="#fff">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Electric bill" data-back="ebill1"></div>
+      <svg class="abs" style="left:24px;top:117px" width="327" height="180" aria-hidden="true"><use href="#illo-wallet"/></svg>
+      <p class="abs" style="left:0;right:0;top:313px;text-align:center;font-size:12px;line-height:16px;color:var(--neutral-3);font-weight:500">01/10/2019 - 01/11/2019</p>
+      <div class="card" style="left:24px;top:353px;width:327px;height:320px">
+        <p class="abs" style="left:16px;top:16px;font-size:16px;line-height:24px;font-weight:600">All the Bills</p>
+        <div class="row2" style="top:64px"><span>Name</span><span>John Smith</span></div>
+        <div class="row2" style="top:96px"><span>Address</span><span>403 East 4th Street, Santa Ana</span></div>
+        <div class="row2" style="top:144px"><span>Phone number</span><span>+8424599721</span></div>
+        <div class="row2" style="top:176px"><span>Code</span><span>#2343543</span></div>
+        <div class="row2" style="top:208px"><span>From</span><span>01/10/2019</span></div>
+        <div class="row2" style="top:240px"><span>To</span><span>01/11/2019</span></div>
+        <div class="abs" style="left:16px;right:16px;top:270px;border-top:1px dashed #d9d9e3"></div>
+        <span class="notch" style="left:-8px;top:266px;box-shadow:inset -2px 0 4px rgba(0,0,0,.03)"></span><span class="notch" style="right:-8px;top:266px;box-shadow:inset 2px 0 4px rgba(0,0,0,.03)"></span>
+        <p class="abs" style="left:16px;top:292px;font-size:16px;line-height:24px;font-weight:600">TOTAL</p>
+        <p class="abs" id="etotal" style="right:16px;top:288px;font-size:24px;line-height:28px;font-weight:600;color:var(--pink)">$480</p>
+      </div>
+      <button class="btn" style="left:24px;right:24px;top:702px" type="button" data-go="ebill5">Pay the bill</button>
+      <div class="homebar"></div>
+    </section>
+
+    <!-- 12. ELECTRIC BILL SUCCESS -->
+    <section class="screen success" id="ebill5" data-bg="#fff">
+      <div class="status" data-s></div>
+      <div class="nav" data-nav="Electric bill" data-back="ebill4"></div>
+      <svg class="abs" style="left:24px;top:119px" width="327" height="210" aria-hidden="true"><use href="#illo-success"/></svg>
+      <h3 style="top:352px">Transaction successful</h3>
+      <p class="sub" style="top:400px">You've pay your electric bill</p>
+      <button class="btn" style="left:24px;right:24px;top:476px" type="button" data-go="home">Home</button>
+      <div class="homebar"></div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+</div>
+
+<!-- Reusable illustrations -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="illo-success" viewBox="0 0 327 210">
+      <ellipse cx="163" cy="178" rx="163" ry="32" fill="#f2f1f9"/>
+      <g transform="rotate(-8 160 70)"><rect x="80" y="14" width="150" height="100" rx="8" fill="#ff4267"/></g>
+      <rect x="110" y="30" width="146" height="100" rx="8" fill="#0f3b3b" transform="rotate(4 183 80)"/>
+      <rect x="118" y="46" width="155" height="100" rx="9" fill="#3629b7"/>
+      <circle cx="195" cy="42" r="17" fill="#fff"/><path d="M195 33v18M186 42h18" stroke="#3629b7" stroke-width="2"/>
+      <rect x="134" y="64" width="26" height="15" rx="3" fill="#fff"/><rect x="134" y="88" width="56" height="5" rx="2" fill="#fff"/><rect x="134" y="98" width="38" height="5" rx="2" fill="#fff"/><rect x="176" y="98" width="14" height="5" rx="2" fill="#fff"/>
+      <circle cx="240" cy="70" r="9" fill="#fff" opacity=".85"/><circle cx="249" cy="70" r="9" fill="#fff" opacity=".6"/>
+      <path d="M40 160c-20-30-5-60 12-72 8 16 8 40-12 72ZM300 170c18-30 8-70-12-86-8 20-4 54 12 86Z" fill="#52d5ba"/>
+      <path d="M12 160c-6-20 8-44 24-50 2 18-6 38-24 50Z" fill="#3fbea4"/>
+      <!-- shield -->
+      <path d="M150 148l22-8 22 8v22c0 12-10 22-22 26-12-4-22-14-22-26Z" fill="#0890fe"/><path d="M155 152l17-6 17 6v18c0 9-7 17-17 21-10-4-17-12-17-21Z" fill="#3629b7"/><path d="M162 168l7 7 12-14" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- coins -->
+      <g fill="#ffaf2a" stroke="#e08a00" stroke-width="1"><ellipse cx="238" cy="150" rx="22" ry="7"/><rect x="216" y="150" width="44" height="20" fill="#ffaf2a" stroke="none"/><ellipse cx="238" cy="170" rx="22" ry="7"/><ellipse cx="238" cy="160" rx="22" ry="7" fill="#ffc95c"/><ellipse cx="238" cy="132" rx="22" ry="7"/><rect x="216" y="132" width="44" height="18" stroke="none"/></g>
+      <circle cx="290" cy="148" r="17" fill="#ffaf2a" stroke="#e08a00" stroke-width="2"/><text x="290" y="155" text-anchor="middle" font-size="20" font-weight="700" fill="#e08a00" font-family="Poppins">$</text>
+      <!-- person -->
+      <circle cx="82" cy="52" r="10" fill="#f4c7a1"/><path d="M70 50c0-14 22-14 24 0l4 20-8-6Z" fill="#ffc63d"/>
+      <path d="M72 62h20l6 40H66Z" fill="#52d5ba"/><path d="M64 66l10-4-4 34-10-2Z" fill="#3629b7"/><path d="M92 62l10 4 2 28-8 2Z" fill="#3629b7"/>
+      <path d="M68 100h28l-8 66h-8l-2-44-2 44h-8Z" fill="#2b2b33"/><rect x="38" y="68" width="14" height="24" rx="2" fill="#fff" stroke="#343434"/><rect x="40" y="72" width="10" height="8" fill="#3629b7"/>
+    </symbol>
+    <symbol id="illo-wallet" viewBox="0 0 327 180">
+      <ellipse cx="163" cy="132" rx="163" ry="46" fill="#f2f1f9"/>
+      <path d="M52 40c-12-18-4-34 8-40 8 14 10 30-8 40ZM304 60c12-20 4-38-10-46-8 18-8 34 10 46Z" fill="#52d5ba"/>
+      <rect x="76" y="62" width="62" height="72" rx="8" fill="#3629b7"/><rect x="80" y="58" width="68" height="76" rx="8" fill="#5655b9"/><rect x="128" y="86" width="22" height="16" rx="4" fill="#3629b7"/><circle cx="140" cy="94" r="3" fill="#fff"/>
+      <g fill="#ffaf2a" stroke="#e08a00"><ellipse cx="62" cy="108" rx="14" ry="5"/><rect x="48" y="108" width="28" height="14" stroke="none"/><ellipse cx="62" cy="122" rx="14" ry="5"/><ellipse cx="62" cy="96" rx="14" ry="5"/><rect x="48" y="96" width="28" height="12" stroke="none"/></g>
+      <circle cx="108" cy="46" r="17" fill="#ffaf2a" stroke="#e08a00" stroke-width="2"/><text x="108" y="53" text-anchor="middle" font-size="20" font-weight="700" fill="#e08a00" font-family="Poppins">$</text>
+      <circle cx="180" cy="34" r="16" fill="#ffaf2a" stroke="#e08a00" stroke-width="2"/><text x="180" y="41" text-anchor="middle" font-size="18" font-weight="700" fill="#e08a00" font-family="Poppins">$</text>
+      <rect x="226" y="10" width="64" height="116" rx="8" fill="#fff" stroke="#3629b7" stroke-width="2.500"/><circle cx="258" cy="50" r="14" fill="#ffaf2a" stroke="#e08a00" stroke-width="2"/><text x="258" y="56" text-anchor="middle" font-size="16" font-weight="700" fill="#e08a00" font-family="Poppins">$</text>
+      <path d="M158 28c-10-10-28-8-38 4" fill="none" stroke="#cfcdea" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="176" cy="72" r="7" fill="#f4c7a1"/><path d="M168 82h16l2 28h-20Z" fill="#ff4267"/><path d="M170 108h6l-2 40h-4ZM178 108h6l6 38h-4Z" fill="#2b2bb0"/>
+      <rect x="130" y="138" width="32" height="18" rx="2" fill="#52d5ba"/><rect x="170" y="144" width="26" height="8" rx="4" fill="#ffaf2a"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const device = $('#device');
+
+  /* ---------- Shared chrome ---------- */
+  const iconsSvg = `
+    <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="7" width="3" height="4" rx=".8"/><rect x="4.700" y="5" width="3" height="6" rx=".8"/><rect x="9.400" y="2.500" width="3" height="8.500" rx=".8"/><rect x="14" width="3" height="11" rx=".8"/></svg>
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.200c2.200 0 4.200.9 5.700 2.300l1-1.100A9.500 9.500 0 0 0 8 .7 9.500 9.500 0 0 0 1.300 3.400l1 1.100A8 8 0 0 1 8 2.200Zm0 3.400c1.300 0 2.500.5 3.400 1.300l1-1.100A6.600 6.600 0 0 0 8 4.100c-1.700 0-3.300.6-4.400 1.700l1 1.100A5 5 0 0 1 8 5.600Zm0 3.200c-.6 0-1.100.2-1.500.6L8 11l1.500-1.600c-.4-.4-.9-.6-1.500-.6Z"/></svg>
+    <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="3" stroke="currentColor" opacity=".35"/><rect x="2" y="2" width="18" height="8" rx="1.500" fill="currentColor"/><path d="M23 4v4c.8-.3 1.500-1.100 1.500-2S23.800 4.300 23 4Z" fill="currentColor" opacity=".4"/></svg>`;
+  const chev = `<svg width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1 1.500 9 9 17"/></svg>`;
+  const search = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 5 5"/></svg>`;
+
+  $$('[data-s]').forEach(el => {
+    const alt = el.hasAttribute('data-alt');
+    el.innerHTML = `<span class="time">${alt ? '9:41 AM' : '9:09'}</span><span class="ico">${iconsSvg}</span>`;
+  });
+  $$('[data-nav]').forEach(el => {
+    el.innerHTML = `<button class="back" type="button" aria-label="Go back" data-back>${chev}</button><h2>${el.dataset.nav}</h2>` +
+      (el.dataset.act === 'search' ? `<button class="act" type="button" aria-label="Search" data-toast="Search tapped">${search}</button>` : '');
+  });
+  /* dark text on the white screens */
+  $$('.screen').forEach(s => { if (!s.classList.contains('t-light')) s.style.color = 'var(--neutral-1)'; });
+
+  /* ---------- Toast ---------- */
+  const toast = $('#toast'); let tt;
+  function say(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 2200); }
+
+  /* ---------- Home tiles ---------- */
+  const ic = (c, body) => `<svg width="28" height="28" viewBox="0 0 28 28" fill="none">${body.replaceAll('{c}', c)}</svg>`;
+  const tiles = [
+    ['Account<br>and Card', '#3629b7', ic('#3629b7', '<rect x="3" y="6" width="22" height="17" rx="3" fill="{c}"/><rect x="5" y="3" width="16" height="4" rx="2" fill="{c}" opacity=".6"/><circle cx="20" cy="15" r="1.800" fill="#fff"/>'), 'account'],
+    ['Transfer', '#ff4267', ic('#ff4267', '<rect x="3" y="3" width="11" height="14" rx="2" stroke="{c}" stroke-width="2"/><rect x="14" y="11" width="11" height="14" rx="2" stroke="{c}" stroke-width="2"/><path d="M17 6h5v-3M11 22H6v3" stroke="{c}" stroke-width="2" stroke-linecap="round"/>'), 'benlist'],
+    ['Withdraw', '#0890fe', ic('#0890fe', '<rect x="3" y="3" width="22" height="22" rx="2" fill="{c}"/><rect x="8" y="3" width="12" height="9" fill="#fff"/><rect x="10" y="3" width="3" height="9" fill="{c}"/><rect x="15" y="3" width="3" height="9" fill="{c}"/>')],
+    ['Mobile<br>prepaid', '#ffaf2a', ic('#ffaf2a', '<rect x="5" y="2" width="18" height="24" rx="3" stroke="{c}" stroke-width="2.500"/><text x="14" y="19" text-anchor="middle" font-size="14" font-weight="700" fill="{c}" font-family="Poppins">$</text>')],
+    ['Pay the<br>bill', '#52d5ba', ic('#52d5ba', '<path d="M5 2h18v24l-3-2-3 2-3-2-3 2-3-2-3 2Z" fill="{c}"/><path d="M9 9h10M9 14h10" stroke="#fff" stroke-width="2"/>'), 'paybill'],
+    ['Save<br>online', '#5655b9', ic('#5655b9', '<ellipse cx="14" cy="16" rx="10" ry="8" fill="{c}"/><circle cx="21" cy="9" r="3" fill="{c}"/><rect x="9" y="22" width="3" height="4" fill="{c}"/><rect x="17" y="22" width="3" height="4" fill="{c}"/><rect x="11" y="9" width="6" height="2" rx="1" fill="#fff"/>')],
+    ['Credit<br>card', '#fb6b18', ic('#fb6b18', '<rect x="2" y="5" width="24" height="18" rx="3" fill="{c}"/><rect x="2" y="9" width="24" height="4" fill="#fff"/><rect x="5" y="17" width="8" height="2" rx="1" fill="#fff"/>')],
+    ['Transaction<br>report', '#3629b7', ic('#3629b7', '<rect x="4" y="2" width="20" height="24" rx="2" fill="{c}"/><path d="M8 9h12M8 14h12M8 19h7" stroke="#fff" stroke-width="2"/>')],
+    ['Beneficiary', '#ff4267', ic('#ff4267', '<rect x="3" y="3" width="20" height="22" rx="3" fill="{c}"/><circle cx="13" cy="11" r="3.500" fill="#fff"/><path d="M7 20c1-4 11-4 12 0" fill="#fff"/><rect x="23" y="7" width="3" height="4" rx="1" fill="{c}"/><rect x="23" y="14" width="3" height="4" rx="1" fill="{c}"/>'), 'benlist']
+  ];
+  $('#tiles').innerHTML = tiles.map((t, i) => {
+    const x = 24 + (i % 3) * 116, y = 407 + Math.floor(i / 3) * 116;
+    return `<button class="tile" type="button" style="left:${x}px;top:${y}px" ${t[3] ? `data-go="${t[3]}"` : `data-toast="${t[0].replace('<br>', ' ')} isn't part of this prototype"`}>${t[2]}<span>${t[0]}</span></button>`;
+  }).join('');
+
+  /* ---------- Beneficiary list ---------- */
+  const hues = ['#4a2f26', '#6b3f31', '#2f3b52', '#5a3a3a'];
+  const person = (n, c, i) => `<button class="urow" type="button" data-go="bendetail" data-name="${n}"><span class="avatar" style="width:40px;height:40px;font-size:14px;background:linear-gradient(135deg,#b4764f,${hues[i % 4]})">${n[0]}</span><span><span class="n">${n}</span><span class="c">${c}</span></span></button>`;
+  const groups = [
+    ['Transfer via card number', [['Push', '12788980890'], ['Olivia', '0345976231']]],
+    ['Transfer to the same bank', [['Alexander', '12788980890'], ['Harper', '0345976231']]],
+    ['Transfer to another bank', [['Thomas', '12788980890'], ['Sanmatha', '0345976231'], ['Justin Biber', '12788980890']]]
+  ];
+  let k = 0;
+  $('#benScroll').innerHTML = groups.map(g => `<p class="cap">${g[0]}</p><div class="ulist">${g[1].map(p => person(p[0], p[1], k++)).join('')}</div>`).join('');
+
+  /* ---------- Account tabs ---------- */
+  $$('[data-tab]').forEach(b => b.addEventListener('click', () => {
+    $$('[data-tab]').forEach(o => o.setAttribute('aria-selected', String(o === b)));
+    if (b.dataset.tab === 'Card') say('The Card tab is not designed in Figma yet');
+    else $$('[data-tab]')[0].setAttribute('aria-selected', 'true');
+  }));
+
+  /* ---------- Sign in ---------- */
+  const su = $('#su'), sp = $('#sp'), ss = $('#ss'), st = $('#st');
+  /* For user testing: any input in either field enables Sign in */
+  const upd = () => { ss.disabled = !(su.value.trim() || sp.value); };
+  su.addEventListener('input', upd); sp.addEventListener('input', upd);
+  st.addEventListener('click', () => {
+    const show = sp.type === 'password';
+    sp.type = show ? 'text' : 'password';
+    st.setAttribute('aria-pressed', String(show));
+    st.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+  /* Fingerprint fills in the sign-in form (the "filled" Figma frame); the user then taps Sign in */
+  $('#fp').addEventListener('click', () => {
+    su.value = 'My Name'; sp.value = '******'; sp.type = 'password';
+    st.setAttribute('aria-pressed', 'false'); st.setAttribute('aria-label', 'Show password');
+    upd(); ss.focus();
+  });
+  /* Don't rely on form submission (some viewers/sandboxes block it): use plain click + Enter handlers */
+  $('#signinForm').addEventListener('submit', e => e.preventDefault());
+  ss.addEventListener('click', () => { if (!ss.disabled) go('home'); });
+  [su, sp].forEach(inp => inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (!ss.disabled) go('home'); } }));
+
+  /* ---------- Beneficiary detail ---------- */
+  const damt = $('#damt'), dconf = $('#dconf');
+  const dupd = () => {
+    damt.value = damt.value.replace(/[^0-9.]/g, '');
+    dconf.disabled = !(parseFloat(damt.value) > 0);
+  };
+  damt.addEventListener('input', dupd);
+  dconf.addEventListener('click', () => go('success1'));
+
+  /* ---------- Electric bill keyboard ---------- */
+  const eamt = $('#eamt'), econf = $('#econf'), wrap = $('#eamtWrap'), kbNum = $('#kbNum'), kbAbc = $('#kbAbc'), ehome = $('#ehome');
+  const setAmt = v => {
+    eamt.value = v;
+    wrap.classList.toggle('has', v.length > 0);
+    econf.disabled = !(parseFloat(v) > 0);
+    $('#etotal').textContent = '$' + (parseFloat(v) > 0 ? v : '480');
+  };
+  /* numbers keyboard (matches Figma "Numbers for X") */
+  const numKeys = [['1', 7, 7], ['2', 129, 7], ['3', 251, 7], ['4', 7, 60], ['5', 129, 60], ['6', 251, 60], ['7', 7, 112], ['8', 129, 112], ['9', 251, 112], ['.', 7, 164, 'dark'], ['0', 129, 164], ['del', 251, 164, 'dark']];
+  kbNum.innerHTML = numKeys.map(([t, x, y, c]) => `<button class="key ${c || ''}" type="button" data-k="${t}" style="left:${x}px;top:${y}px;width:${t === '1' || t === '4' || t === '7' || t === '.' || t === 'del' && 0 ? 117 : 117}px;height:48px" aria-label="${t === 'del' ? 'Delete' : t}">${t === 'del' ? '<svg width="26" height="20" viewBox="0 0 26 20" fill="none" stroke="#000" stroke-width="1.500" stroke-linejoin="round"><path d="M8 1h15a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8L1 10Z"/></svg>' : (t === '.' ? '&middot;' : t)}</button>`).join('') + '<div class="bar"></div>';
+  kbNum.addEventListener('click', e => {
+    const b = e.target.closest('[data-k]'); if (!b) return;
+    const key = b.dataset.k; let v = eamt.value;
+    if (key === 'del') v = v.slice(0, -1);
+    else if (key === '.') { if (!v.includes('.') && v) v += '.'; }
+    else if (v.length < 9) v += key;
+    setAmt(v);
+  });
+  /* letters keyboard (matches Figma "Text for X") */
+  const rows = [['q','w','e','r','t','y','u','i','o','p'], ['a','s','d','f','g','h','j','k','l'], ['z','x','c','v','b','n','m']];
+  let abc = '';
+  rows.forEach((r, ri) => {
+    const off = ri === 0 ? 3 : ri === 1 ? 21 : 61;
+    r.forEach((c, i) => { abc += `<button class="key" type="button" tabindex="-1" style="left:${off + i * 37}px;top:${11 + ri * 55}px;width:33px;height:43px;font-size:22px">${c}</button>`; });
+  });
+  abc += `<button class="key dark" type="button" tabindex="-1" style="left:3px;top:121px;width:42px;height:43px">&#8679;</button><button class="key dark" type="button" tabindex="-1" style="left:330px;top:121px;width:42px;height:43px">&#9003;</button>`;
+  abc += `<button class="key dark" type="button" tabindex="-1" style="left:3px;top:176px;width:87px;height:43px;font-size:16px">123</button><button class="key" type="button" tabindex="-1" style="left:97px;top:176px;width:181px;height:43px;font-size:16px">space</button><button class="key dark" type="button" tabindex="-1" style="left:285px;top:176px;width:87px;height:43px;font-size:16px">return</button><div class="bar"></div>`;
+  kbAbc.innerHTML = abc;
+
+  const showKb = which => {
+    kbNum.classList.toggle('show', which === 'num');
+    kbAbc.classList.toggle('show', which === 'abc');
+    ehome.style.display = which ? 'none' : '';
+    eamt.classList.toggle('focus', !!which);
+  };
+  eamt.addEventListener('click', () => showKb('num'));
+  $('#ebill1 .card').addEventListener('click', e => { if (!e.target.closest('#eamtWrap') && !e.target.closest('#econf')) showKb(null); });
+  econf.addEventListener('click', () => { showKb(null); go('ebill4'); });
+
+  /* ---------- Router ---------- */
+  const order = [
+    ['signin', 'Sign in', () => { su.value = ''; sp.value = ''; sp.type = 'password'; upd(); }],
+    ['signin', 'Sign in (filled in)', () => { su.value = 'My Name'; sp.value = '******'; upd(); }],
+    ['home', 'Home'],
+    ['account', 'Account and card'],
+    ['benlist', 'Beneficiary list'],
+    ['bendetail', 'Beneficiary (amount empty)', () => { damt.value = ''; dupd(); }],
+    ['bendetail', 'Beneficiary (amount filled)', () => { damt.value = '150'; dupd(); }],
+    ['success1', 'Transaction successful'],
+    ['paybill', 'Pay the bill'],
+    ['ebill1', 'Electric bill (empty)', () => { setAmt(''); showKb(null); }],
+    ['ebill1', 'Electric bill (number keypad)', () => { setAmt(''); showKb('num'); }],
+    ['ebill1', 'Electric bill (£480, letter keyboard)', () => { setAmt('480'); showKb('abc'); }],
+    ['ebill4', 'Electric bill summary'],
+    ['ebill5', 'Electric bill paid']
+  ];
+  const pickerEl = $('#picker');
+  pickerEl.innerHTML = order.map((o, i) => `<li><button type="button" data-i="${i}">${o[1]}</button></li>`).join('');
+
+  let cur = -1;
+  function show(id, idx) {
+    $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+    const s = document.getElementById(id);
+    device.style.height = ''; device.style.background = s.dataset.bg || '#fff';
+    device.style.setProperty('--h', (s.dataset.h || 812) + 'px');
+    if (window.matchMedia('(min-width:761px)').matches) device.style.height = (s.dataset.h || 812) + 'px';
+    cur = idx;
+    $$('#picker button').forEach(b => b.setAttribute('aria-current', String(+b.dataset.i === idx)));
+    toast.classList.remove('show');
+    const sc = $('#benScroll'); if (id === 'benlist') sc.scrollTop = 0;
+  }
+  function jump(i) { show(order[i][0], i); if (order[i][2]) order[i][2](); }
+  function go(id) {
+    const i = order.findIndex(o => o[0] === id);
+    /* when entering via the flow, start from a clean state */
+    if (id === 'bendetail') { damt.value = ''; dupd(); }
+    if (id === 'ebill1') { setAmt(''); showKb(null); }
+    if (id === 'signin') { su.value = ''; sp.value = ''; upd(); }
+    show(id, i);
+  }
+
+  pickerEl.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) jump(+b.dataset.i); });
+  device.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]');
+    if (g) {
+      if (g.dataset.name) { const n = g.dataset.name; $('#bendetail .who').textContent = n === 'Harper' ? 'Harper Someone' : n; }
+      return go(g.dataset.go);
+    }
+    const t = e.target.closest('[data-toast]'); if (t) return say(t.dataset.toast);
+    const bk = e.target.closest('[data-back]');
+    if (bk) {
+      const target = bk.parentElement.dataset.back;
+      if (target.startsWith('toast:')) say(target.slice(6)); else go(target);
+    }
+  });
+
+  jump(0);
+})();
+</script>
+</body>
+</html>
